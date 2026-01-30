@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Build artifacts are committed for WordPress plugin distribution
+# build/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Optional: local development
+.env
+.env.local

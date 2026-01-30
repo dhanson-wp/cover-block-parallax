@@ -1,0 +1,77 @@
+/**
+ * Parallax Scroll Style for Cover Block
+ *
+ * Uses JavaScript-based parallax with CSS transforms for smooth,
+ * reliable parallax scrolling without image quality degradation.
+ */
+
+/* Parallax container setup */
+.wp-block-cover.has-parallax-scroll {
+	position: relative;
+	overflow: hidden;
+
+	/* Disable WordPress's fixed background - we handle parallax via JS */
+	background-attachment: scroll !important;
+}
+
+/* Background layer setup for parallax */
+.wp-block-cover.has-parallax-scroll .wp-block-cover__background,
+.wp-block-cover.has-parallax-scroll .wp-block-cover__image-background,
+.wp-block-cover.has-parallax-scroll .wp-block-cover__video-background,
+.wp-block-cover.has-parallax-scroll > img:not(.wp-block-cover__image-background),
+.wp-block-cover.has-parallax-scroll > video {
+	/* Extend beyond container for parallax movement room */
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: 130%; /* Extra height for parallax movement */
+	object-fit: cover;
+	object-position: center;
+
+	/* Center vertically so parallax can move up or down */
+	top: -15%; /* Half of the extra 30% height */
+
+	/* GPU acceleration for smooth transforms */
+	will-change: transform;
+	backface-visibility: hidden;
+
+	/* Initial position - JS will update this */
+	transform: translateY(0);
+}
+
+/* Content layer stays in normal flow */
+.wp-block-cover.has-parallax-scroll .wp-block-cover__inner-container {
+	position: relative;
+	z-index: 2;
+}
+
+/* Ensure overlay maintains proper position */
+.wp-block-cover.has-parallax-scroll .wp-block-cover__gradient-background {
+	z-index: 1;
+}
+
+/* Accessibility: Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+	.wp-block-cover.has-parallax-scroll .wp-block-cover__background,
+	.wp-block-cover.has-parallax-scroll .wp-block-cover__image-background,
+	.wp-block-cover.has-parallax-scroll .wp-block-cover__video-background,
+	.wp-block-cover.has-parallax-scroll > img:not(.wp-block-cover__image-background),
+	.wp-block-cover.has-parallax-scroll > video {
+		top: 0;
+		height: 100%;
+		transform: none !important;
+	}
+}
+
+/* Mobile optimization: Disable parallax on smaller screens for performance */
+@media (max-width: 768px) {
+	.wp-block-cover.has-parallax-scroll .wp-block-cover__background,
+	.wp-block-cover.has-parallax-scroll .wp-block-cover__image-background,
+	.wp-block-cover.has-parallax-scroll .wp-block-cover__video-background,
+	.wp-block-cover.has-parallax-scroll > img:not(.wp-block-cover__image-background),
+	.wp-block-cover.has-parallax-scroll > video {
+		top: 0;
+		height: 100%;
+		transform: none !important;
+	}
+}

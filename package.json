@@ -1,0 +1,21 @@
+{
+	"name": "cover-parallax-style",
+	"version": "1.0.0",
+	"description": "CSS-only parallax scroll style variation for the WordPress Cover block",
+	"author": "Derek Hanson",
+	"license": "GPL-2.0-or-later",
+	"main": "build/index.js",
+	"scripts": {
+		"build": "wp-scripts build",
+		"start": "wp-scripts start",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^28.0.0"
+	},
+	"dependencies": {
+		"@babel/runtime": "^7.25.0"
+	}
+}
