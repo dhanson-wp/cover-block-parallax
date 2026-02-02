@@ -66,6 +66,18 @@ The plugin uses JavaScript-based parallax with CSS transforms for smooth, reliab
 - The effect is calculated based on viewport position for natural depth perception
 - GPU acceleration via `will-change: transform` and `backface-visibility: hidden`
 
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
 ## License
 
-GPL v2 or later
+This plugin is free software released under the terms of the GNU General Public License version 2 or (at your option) any later version. See [LICENSE](LICENSE) for full license text.
+
+This is the same license used by WordPress itself, ensuring full compatibility with the WordPress ecosystem.
