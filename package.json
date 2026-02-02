@@ -1,7 +1,7 @@
 {
 	"name": "cover-parallax-style",
-	"version": "1.0.0",
-	"description": "CSS-only parallax scroll style variation for the WordPress Cover block",
+	"version": "1.1.0",
+	"description": "Smooth parallax scrolling effect for the WordPress Cover block with adjustable speed controls",
 	"author": "Derek Hanson",
 	"license": "GPL-2.0-or-later",
 	"main": "build/index.js",
@@ -16,6 +16,7 @@
 		"@wordpress/scripts": "^28.0.0"
 	},
 	"dependencies": {
-		"@babel/runtime": "^7.25.0"
+		"@babel/runtime": "^7.25.0",
+		"@wordpress/icons": "^11.6.0"
 	}
 }
