@@ -8,9 +8,8 @@
 ( function () {
 	'use strict';
 
-	// Parallax speed factor (0 = no movement, 1 = moves with scroll)
-	// 0.5 means background moves at half the speed of scroll
-	const PARALLAX_SPEED = 0.5;
+	// Default speed if not specified
+	const DEFAULT_SPEED = 0.5;
 	const MAX_OFFSET_PERCENT = 0.15; // 15% of container height (half of 30% extra)
 
 	// Check for reduced motion preference
@@ -52,9 +51,15 @@
 				container.querySelector( ':scope > video' );
 
 			if ( background ) {
+				// Read speed from data attribute, default to 0.5
+				const speed = parseFloat(
+					container.dataset.parallaxSpeed || DEFAULT_SPEED
+				);
+
 				parallaxItems.push( {
 					container,
 					background,
+					speed,
 				} );
 			}
 		} );
@@ -87,11 +92,11 @@
 			// Clamp between 0 and 1
 			const progress = Math.max( 0, Math.min( 1, scrollProgress ) );
 
-			// Calculate parallax offset
+			// Calculate parallax offset using the item's speed
 			// At progress 0 (bottom of viewport): background at top of its range
 			// At progress 1 (top of viewport): background at bottom of its range
 			const maxOffset = rect.height * MAX_OFFSET_PERCENT;
-			const offset = ( progress - 0.5 ) * maxOffset * PARALLAX_SPEED * 2;
+			const offset = ( progress - 0.5 ) * maxOffset * item.speed * 2;
 
 			// Apply transform
 			item.background.style.transform = `translateY(${ offset }px)`;

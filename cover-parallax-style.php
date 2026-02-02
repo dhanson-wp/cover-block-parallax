@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name: Cover Block Parallax Style
- * Plugin URI: https://github.com/derekhanson/cover-parallax-style
- * Description: Adds a CSS-only parallax scroll style variation to the WordPress Cover block for better performance and mobile compatibility.
- * Version: 1.0.0
+ * Plugin URI: https://github.com/derekhanson/cover-block-parallax
+ * Description: Adds a smooth parallax scrolling effect to the WordPress Cover block with adjustable speed controls.
+ * Version: 1.1.0
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Author: Derek Hanson
@@ -76,10 +76,10 @@ function cover_parallax_style_enqueue_block_assets() {
 add_action( 'enqueue_block_assets', 'cover_parallax_style_enqueue_block_assets' );
 
 /**
- * Enqueue frontend script for :has() fallback.
+ * Enqueue frontend script for parallax scrolling.
  *
- * Adds fallback class on html/body for browsers that don't support
- * the CSS :has() selector.
+ * Loads the JavaScript that handles the parallax scroll effect
+ * on the frontend using requestAnimationFrame for smooth performance.
  *
  * @return void
  */
