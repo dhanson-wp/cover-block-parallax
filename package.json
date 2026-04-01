@@ -13,10 +13,8 @@
 		"lint:js": "wp-scripts lint-js"
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^28.0.0"
-	},
-	"dependencies": {
 		"@babel/runtime": "^7.25.0",
-		"@wordpress/icons": "^11.6.0"
+		"@wordpress/icons": "^11.6.0",
+		"@wordpress/scripts": "^28.0.0"
 	}
 }
