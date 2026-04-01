@@ -11,17 +11,15 @@
 	// Default speed if not specified
 	const DEFAULT_SPEED = 0.5;
 	const MAX_OFFSET_PERCENT = 0.15; // 15% of container height (half of 30% extra)
+	const MOBILE_BREAKPOINT = '(max-width: 768px)';
 
 	// Check for reduced motion preference
 	const prefersReducedMotion = window.matchMedia(
 		'(prefers-reduced-motion: reduce)'
 	).matches;
 
-	// Check for mobile (matches CSS media query)
-	const isMobile = window.matchMedia( '(max-width: 768px)' ).matches;
-
-	// Skip parallax if reduced motion or mobile
-	if ( prefersReducedMotion || isMobile ) {
+	// Skip parallax entirely if reduced motion is preferred
+	if ( prefersReducedMotion ) {
 		return;
 	}
 
@@ -30,6 +28,9 @@
 
 	// Store parallax elements and their backgrounds
 	let parallaxItems = [];
+
+	// Track whether scroll listener is currently attached
+	let scrollListenerActive = false;
 
 	/**
 	 * Initialize parallax elements.
@@ -116,33 +117,74 @@
 	}
 
 	/**
-	 * Handle resize - reinitialize to recalculate dimensions.
+	 * Add scroll listener if not already active.
+	 */
+	function addScrollListener() {
+		if ( ! scrollListenerActive ) {
+			window.addEventListener( 'scroll', onScroll, { passive: true } );
+			scrollListenerActive = true;
+		}
+	}
+
+	/**
+	 * Remove scroll listener if active.
+	 */
+	function removeScrollListener() {
+		if ( scrollListenerActive ) {
+			window.removeEventListener( 'scroll', onScroll );
+			scrollListenerActive = false;
+		}
+	}
+
+	/**
+	 * Enable parallax: initialize elements and attach scroll listener.
+	 */
+	function enableParallax() {
+		initParallax();
+		addScrollListener();
+	}
+
+	/**
+	 * Disable parallax: reset transforms and remove scroll listener.
+	 */
+	function disableParallax() {
+		parallaxItems.forEach( ( item ) => {
+			item.background.style.transform = '';
+		} );
+		parallaxItems = [];
+		removeScrollListener();
+	}
+
+	/**
+	 * Handle viewport size changes.
+	 * Enables or disables parallax based on the current breakpoint.
 	 */
 	function onResize() {
-		// Check if we should disable on mobile after resize
-		if ( window.matchMedia( '(max-width: 768px)' ).matches ) {
-			// Reset transforms and remove listener
-			parallaxItems.forEach( ( item ) => {
-				item.background.style.transform = '';
-			} );
-			window.removeEventListener( 'scroll', onScroll, { passive: true } );
-			return;
-		}
+		const isMobile = window.matchMedia( MOBILE_BREAKPOINT ).matches;
 
-		// Reinitialize
-		initParallax();
+		if ( isMobile ) {
+			disableParallax();
+		} else {
+			enableParallax();
+		}
+	}
+
+	/**
+	 * Bootstrap: set up resize listener and conditionally enable parallax.
+	 */
+	function bootstrap() {
+		window.addEventListener( 'resize', onResize, { passive: true } );
+
+		// Only activate parallax if viewport is wide enough at load time
+		if ( ! window.matchMedia( MOBILE_BREAKPOINT ).matches ) {
+			enableParallax();
+		}
 	}
 
 	// Initialize when DOM is ready
 	if ( document.readyState === 'loading' ) {
-		document.addEventListener( 'DOMContentLoaded', () => {
-			initParallax();
-			window.addEventListener( 'scroll', onScroll, { passive: true } );
-			window.addEventListener( 'resize', onResize, { passive: true } );
-		} );
+		document.addEventListener( 'DOMContentLoaded', bootstrap );
 	} else {
-		initParallax();
-		window.addEventListener( 'scroll', onScroll, { passive: true } );
-		window.addEventListener( 'resize', onResize, { passive: true } );
+		bootstrap();
 	}
 } )();
