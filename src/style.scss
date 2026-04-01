@@ -63,13 +63,13 @@
 	}
 }
 
-/* Mobile optimization: Disable parallax on smaller screens for performance */
+/* Mobile optimization: Disable parallax on smaller screens when per-block option is set */
 @media (max-width: 768px) {
-	.wp-block-cover.has-parallax-scroll .wp-block-cover__background,
-	.wp-block-cover.has-parallax-scroll .wp-block-cover__image-background,
-	.wp-block-cover.has-parallax-scroll .wp-block-cover__video-background,
-	.wp-block-cover.has-parallax-scroll > img:not(.wp-block-cover__image-background),
-	.wp-block-cover.has-parallax-scroll > video {
+	.wp-block-cover.has-parallax-scroll[data-parallax-hide-mobile="true"] .wp-block-cover__background,
+	.wp-block-cover.has-parallax-scroll[data-parallax-hide-mobile="true"] .wp-block-cover__image-background,
+	.wp-block-cover.has-parallax-scroll[data-parallax-hide-mobile="true"] .wp-block-cover__video-background,
+	.wp-block-cover.has-parallax-scroll[data-parallax-hide-mobile="true"] > img:not(.wp-block-cover__image-background),
+	.wp-block-cover.has-parallax-scroll[data-parallax-hide-mobile="true"] > video {
 		top: 0;
 		height: 100%;
 		transform: none !important;
