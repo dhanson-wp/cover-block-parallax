@@ -192,20 +192,42 @@ function isPresetValue( value ) {
 		}
 	}
 
-	function waitForIframe() {
+	function waitForIframe( retries = 0 ) {
+		const MAX_IFRAME_RETRIES = 60; // 60 × 500ms = 30s
 		const iframe = document.querySelector( 'iframe[name="editor-canvas"]' );
 
 		if ( ! iframe ) {
-			setTimeout( waitForIframe, 500 );
+			if ( retries >= MAX_IFRAME_RETRIES ) {
+				// eslint-disable-next-line no-console
+				console.warn(
+					'Parallax: editor iframe not found after',
+					MAX_IFRAME_RETRIES,
+					'attempts. Giving up.'
+				);
+				return;
+			}
+			setTimeout( () => waitForIframe( retries + 1 ), 500 );
 			return;
 		}
 
 		// Check if iframe is ready
+		const MAX_SETUP_RETRIES = 15; // 15 × 200ms = 3s
+		let setupRetries = 0;
+
 		const trySetup = () => {
 			if ( setupIframe( iframe ) ) {
 				return;
 			}
-			// Retry if not ready
+			setupRetries++;
+			if ( setupRetries >= MAX_SETUP_RETRIES ) {
+				// eslint-disable-next-line no-console
+				console.warn(
+					'Parallax: iframe setup failed after',
+					MAX_SETUP_RETRIES,
+					'attempts. Giving up.'
+				);
+				return;
+			}
 			setTimeout( trySetup, 200 );
 		};
 
