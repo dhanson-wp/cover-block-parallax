@@ -100,7 +100,7 @@ function cover_parallax_style_enqueue_frontend_script() {
 		plugins_url( 'build/frontend.js', __FILE__ ),
 		array(),
 		filemtime( $script_file ),
-		false // Load in head for early execution
+		true
 	);
 }
 add_action( 'wp_enqueue_scripts', 'cover_parallax_style_enqueue_frontend_script' );
