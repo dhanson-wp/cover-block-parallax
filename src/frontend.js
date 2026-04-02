@@ -8,8 +8,8 @@
 ( function () {
 	'use strict';
 
-	// Default speed if not specified
-	const DEFAULT_SPEED = 0.5;
+	// Default speed if not specified (must match editor DEFAULT_SPEED in index.js)
+	const DEFAULT_SPEED = 0.3;
 	const MAX_OFFSET_PERCENT = 0.15; // 15% of container height (half of 30% extra)
 
 	// Check for reduced motion preference
