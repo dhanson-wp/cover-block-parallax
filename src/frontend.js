@@ -17,11 +17,8 @@
 		'(prefers-reduced-motion: reduce)'
 	).matches;
 
-	// Check for mobile (matches CSS media query)
-	const isMobile = window.matchMedia( '(max-width: 768px)' ).matches;
-
-	// Skip parallax if reduced motion or mobile
-	if ( prefersReducedMotion || isMobile ) {
+	// Skip parallax entirely if reduced motion is preferred
+	if ( prefersReducedMotion ) {
 		return;
 	}
 
@@ -32,16 +29,30 @@
 	let parallaxItems = [];
 
 	/**
+	 * Check if viewport is mobile-sized.
+	 */
+	function isMobile() {
+		return window.matchMedia( '(max-width: 768px)' ).matches;
+	}
+
+	/**
 	 * Initialize parallax elements.
+	 * Filters out blocks with "disable on mobile" when on a mobile viewport.
 	 */
 	function initParallax() {
 		const containers = document.querySelectorAll(
 			'.wp-block-cover.has-parallax-scroll'
 		);
 
+		const mobile = isMobile();
 		parallaxItems = [];
 
 		containers.forEach( ( container ) => {
+			// Skip this block on mobile if "disable on mobile" is enabled
+			if ( mobile && container.dataset.parallaxHideMobile === 'true' ) {
+				return;
+			}
+
 			// Find the background element (image, video, or color overlay)
 			const background =
 				container.querySelector( '.wp-block-cover__image-background' ) ||
@@ -51,7 +62,7 @@
 				container.querySelector( ':scope > video' );
 
 			if ( background ) {
-				// Read speed from data attribute, default to 0.5
+				// Read speed from data attribute
 				const speed = parseFloat(
 					container.dataset.parallaxSpeed || DEFAULT_SPEED
 				);
@@ -116,20 +127,16 @@
 	}
 
 	/**
-	 * Handle resize - reinitialize to recalculate dimensions.
+	 * Handle resize - reinitialize to recalculate dimensions and
+	 * re-evaluate per-block mobile settings.
 	 */
 	function onResize() {
-		// Check if we should disable on mobile after resize
-		if ( window.matchMedia( '(max-width: 768px)' ).matches ) {
-			// Reset transforms and remove listener
-			parallaxItems.forEach( ( item ) => {
-				item.background.style.transform = '';
-			} );
-			window.removeEventListener( 'scroll', onScroll, { passive: true } );
-			return;
-		}
+		// Reset existing transforms
+		parallaxItems.forEach( ( item ) => {
+			item.background.style.transform = '';
+		} );
 
-		// Reinitialize
+		// Reinitialize - initParallax filters per-block mobile settings
 		initParallax();
 	}
 

@@ -270,6 +270,10 @@ function addParallaxAttribute( settings, name ) {
 				type: 'number',
 				default: DEFAULT_SPEED,
 			},
+			parallaxHideOnMobile: {
+				type: 'boolean',
+				default: false,
+			},
 		},
 	};
 }
@@ -290,7 +294,7 @@ const withParallaxControl = createHigherOrderComponent( ( BlockEdit ) => {
 		}
 
 		const { attributes, setAttributes } = props;
-		const { hasParallaxScroll, hasParallax, parallaxSpeed = DEFAULT_SPEED } = attributes;
+		const { hasParallaxScroll, hasParallax, parallaxSpeed = DEFAULT_SPEED, parallaxHideOnMobile } = attributes;
 
 		// Track previous hasParallax value to detect when it's enabled
 		const prevHasParallax = useRef( hasParallax );
@@ -418,6 +422,18 @@ const withParallaxControl = createHigherOrderComponent( ( BlockEdit ) => {
 								) }
 							</div>
 						) }
+
+						{ hasParallaxScroll && (
+							<ToggleControl
+								__nextHasNoMarginBottom
+								label={ __( 'Disable on mobile', 'cover-parallax-style' ) }
+								checked={ !! parallaxHideOnMobile }
+								onChange={ ( value ) => {
+									setAttributes( { parallaxHideOnMobile: value } );
+								} }
+								help={ __( 'Disable parallax effect on mobile devices for performance.', 'cover-parallax-style' ) }
+							/>
+						) }
 					</PanelBody>
 				</InspectorControls>
 			</>
@@ -446,14 +462,19 @@ function addParallaxPropsToSave( props, blockType, attributes ) {
 
 	if ( attributes.hasParallaxScroll ) {
 		const speed = attributes.parallaxSpeed || DEFAULT_SPEED;
-
-		return {
+		const saveProps = {
 			...props,
 			className: props.className
 				? `${ props.className } has-parallax-scroll`
 				: 'has-parallax-scroll',
 			'data-parallax-speed': speed,
 		};
+
+		if ( attributes.parallaxHideOnMobile ) {
+			saveProps[ 'data-parallax-hide-mobile' ] = 'true';
+		}
+
+		return saveProps;
 	}
 
 	return props;
@@ -483,14 +504,20 @@ const withParallaxPropsInEditor = createHigherOrderComponent( ( BlockListBlock )
 				? `${ props.className } has-parallax-scroll`
 				: 'has-parallax-scroll';
 
+			const wrapperProps = {
+				...props.wrapperProps,
+				'data-parallax-speed': speed,
+			};
+
+			if ( attributes.parallaxHideOnMobile ) {
+				wrapperProps[ 'data-parallax-hide-mobile' ] = 'true';
+			}
+
 			return (
 				<BlockListBlock
 					{ ...props }
 					className={ className }
-					wrapperProps={ {
-						...props.wrapperProps,
-						'data-parallax-speed': speed,
-					} }
+					wrapperProps={ wrapperProps }
 				/>
 			);
 		}
