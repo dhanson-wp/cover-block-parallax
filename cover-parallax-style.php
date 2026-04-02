@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name: Cover Block Parallax Style
- * Plugin URI: https://github.com/derekhanson/cover-block-parallax
+ * Plugin URI: https://github.com/dhanson-wp/cover-block-parallax
  * Description: Adds a smooth parallax scrolling effect to the WordPress Cover block with adjustable speed controls.
- * Version: 1.1.0
+ * Version: 1.2.0
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Author: Derek Hanson
