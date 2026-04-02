@@ -1,8 +1,8 @@
 # Dependencies
 node_modules/
 
-# Build artifacts are committed for WordPress plugin distribution
-# build/
+# Build artifacts
+build/
 
 # OS files
 .DS_Store
