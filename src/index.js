@@ -77,7 +77,7 @@ function isPresetValue( value ) {
  * Handles the iframe-based editor used in WordPress 5.9+.
  */
 ( function initEditorParallax() {
-	const MAX_OFFSET_PERCENT = 0.15;
+	const MAX_OFFSET_PERCENT = 0.20;
 	let parallaxItems = [];
 	let ticking = false;
 	let iframeWindow = null;

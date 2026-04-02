@@ -10,7 +10,7 @@
 
 	// Default speed if not specified (must match editor DEFAULT_SPEED in index.js)
 	const DEFAULT_SPEED = 0.3;
-	const MAX_OFFSET_PERCENT = 0.15; // 15% of container height (half of 30% extra)
+	const MAX_OFFSET_PERCENT = 0.20; // 20% of container height (half of 40% extra)
 
 	// Check for reduced motion preference
 	const prefersReducedMotion = window.matchMedia(
